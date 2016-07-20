@@ -53,7 +53,6 @@ SELECT posts.title AS "post_title", posts.url AS "post_url", comments.body AS "c
   ON users.id=posts.id
   WHERE users.created_at > '2015-01-01';
 
-
 --10
 SELECT posts.title AS "post_title", posts.url AS "post_url", comments.body AS "comment_body"
   FROM comments
@@ -61,7 +60,7 @@ SELECT posts.title AS "post_title", posts.url AS "post_url", comments.body AS "c
   ON comments.id=posts.id
   WHERE comments.body LIKE '%USB%';
 
---11
+--11 -- 855 results
 SELECT posts.title AS "post_title", users.first_name, users.last_name, comments.body AS "comment_body"
   FROM posts
   INNER JOIN comments
@@ -70,20 +69,20 @@ SELECT posts.title AS "post_title", users.first_name, users.last_name, comments.
   ON posts.id=users.id
   WHERE comments.body LIKE '%matrix%';
 
---12
+--12 -- 102 results
 SELECT users.first_name, users.last_name, comments.body AS "comment_body"
-  FROM users
-  INNER JOIN comments
-  ON users.id=comments.id
+  FROM comments
+  INNER JOIN users
+  ON comments.post_id=users.id
   INNER JOIN posts
-  ON users.id=posts.id
+  ON comments.post_id=posts.id
   WHERE comments.body LIKE '%SSL%' AND posts.content LIKE '%dolorum%';
 
---13
+  --13 -- 218 results
 SELECT users.first_name AS "post_author_first_name", users.last_name AS "post_author_last_name", posts.title AS "post_title", users.username AS "comment_author_username", comments.body AS "comment_body"
-  FROM users
+  FROM comments
+  INNER JOIN users
+  ON comments.post_id=users.id
   INNER JOIN posts
-  ON users.id=posts.id
-  INNER JOIN comments
-  ON users.id=comments.id
+  ON comments.post_id=posts.id
   WHERE (comments.body LIKE '%SSL%' OR comments.body LIKE '%firewall%') AND posts.content LIKE '%nemo%';
